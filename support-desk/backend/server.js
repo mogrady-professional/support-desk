@@ -28,6 +28,12 @@ app.get("/", (req, res) => {
 http://localhost:5000/
 */
 
+// Pass to routes
+app.use("/api/users", require("./routes/userRoutes"));
+/* Send a POST request using Postman to test the request
+http://localhost:5000/
+*/
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 }); // Listen for requests on the given port
