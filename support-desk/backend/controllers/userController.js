@@ -2,6 +2,8 @@
 const asyncHandler = require("express-async-handler");
 // Bring in bcryptjs
 const bcryptjs = require("bcryptjs");
+// Bring in jwt
+const jwt = require("jsonwebtoken");
 // Bring in the User Model
 const User = require("../models/userModel");
 
@@ -40,11 +42,12 @@ const registerUser = asyncHandler(async (req, res) => {
   });
   // Send response
   if (user) {
-    // Return JSON response
+    // Return JSON response -> 201 Created
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -57,8 +60,32 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.send("Login Route");
+  const { email, password } = req.body; // Destructure
+  const user = await User.findOne({ email }); // Find if user already exists
+  // Compare hashed password with plain text password using a method called compare
+  if (user && (await bcryptjs.compare(password, user.password))) {
+    // Return JSON response -> 200 OK
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+    });
+  } else {
+    // Return JSON response -> 401 Unauthorized
+    res.status(401);
+    throw new Error("Invalid credentials");
+  }
+  //   res.send("Login Route");
 });
+
+// Generate token
+const generateToken = (id) => {
+  // Sign token
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
 
 // Export the routes
 module.exports = {
