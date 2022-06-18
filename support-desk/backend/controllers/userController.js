@@ -79,6 +79,22 @@ const loginUser = asyncHandler(async (req, res) => {
   //   res.send("Login Route");
 });
 
+//@desc    Get current user
+// @route   POST /api/users/me
+// @access  Private
+const getMe = asyncHandler(async (req, res) => {
+  //   res.send("me");
+  // Get user details from token
+  //   res.status(200).json(req.user);
+  // destructure req.user
+  const user = {
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+  res.status(200).json(user);
+});
+
 // Generate token
 const generateToken = (id) => {
   // Sign token
@@ -91,4 +107,5 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };
