@@ -1,9 +1,13 @@
 const express = require("express"); // Express web server framework
+const colors = require("colors"); // For pretty console output
 const dotenv = require("dotenv").config(); // Load environment variables from .env file
 // Bring in Error Handler Middleware
 const { errorHandler } = require("./middleware/errorMiddleware");
-
+// Bring in Connection to MongoDB
+const connectDB = require("./config/db");
 const PORT = process.env.PORT || 5000; // Port to listen on
+// Connect to MongoDB
+connectDB();
 const app = express(); // Create a new Express application
 app.use(express.json()); // Parse request body as JSON
 app.use(express.urlencoded({ extended: true })); // Parse request body as URL encoded data (for form submissions)

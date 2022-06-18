@@ -1,3 +1,5 @@
+// Import express-async-handler from express-async-handler
+const asyncHandler = require("express-async-handler");
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
