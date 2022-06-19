@@ -5,6 +5,10 @@ import { toast } from "react-toastify";
 // Import FaUser
 import { FaUser } from "react-icons/fa";
 import React from "react";
+// Global state selector hook (Connects react component to redux store)
+import { useDispatch, useSelector } from "react-redux";
+// Register action
+import { register } from "../features/auth/authSlice";
 
 function Register() {
   // Create state with formData object
@@ -17,6 +21,12 @@ function Register() {
 
   // Destructuring formData object
   const { name, email, password, password2 } = formData;
+
+  // Auth Slice state
+  const dispatch = useDispatch(); // Global state dispatch hook
+  const { user, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  ); // Bring in auth state
 
   // Create onChange function for each input
   const onChange = (e) =>
@@ -35,8 +45,13 @@ function Register() {
     if (password !== password2) {
       toast.error("Passwords do not match");
     } else {
-      // Call registerUser function
-      //   registerUser({ name, email, password });
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      // Dispatch register (from authSlice) action
+      dispatch(register(userData));
     }
   };
 
@@ -44,7 +59,7 @@ function Register() {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register
+          <FaUser /> Register {user}
         </h1>
         <p>Please create an account</p>
       </section>

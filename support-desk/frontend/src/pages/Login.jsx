@@ -5,6 +5,10 @@ import { toast } from "react-toastify";
 // Import FaUser
 import { FaSignInAlt } from "react-icons/fa";
 import React from "react";
+// Global state selector hook (Connects react component to redux store)
+import { useDispatch, useSelector } from "react-redux";
+// Register action
+import { login } from "../features/auth/authSlice";
 
 function Login() {
   // Create state with formData object
@@ -15,6 +19,12 @@ function Login() {
 
   // Destructuring formData object
   const { email, password } = formData;
+
+  // Auth Slice state
+  const dispatch = useDispatch(); // Global state dispatch hook
+  const { user, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  ); // Bring in auth state
 
   // Create onChange function for each input
   const onChange = (e) =>
@@ -30,6 +40,13 @@ function Login() {
   // Create onSubmit function
   const onSubmit = async (e) => {
     e.preventDefault();
+    // Construct user
+    const userData = {
+      email,
+      password,
+    };
+    // Dispatch login (from authSlice) action
+    dispatch(login(userData));
   };
 
   return (
