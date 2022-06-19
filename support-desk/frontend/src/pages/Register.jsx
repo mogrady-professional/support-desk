@@ -1,5 +1,6 @@
-// import useState
-import { useState } from "react";
+// import useState, useEffect
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // Import Toast
 import { toast } from "react-toastify";
 // Import FaUser
@@ -8,7 +9,7 @@ import React from "react";
 // Global state selector hook (Connects react component to redux store)
 import { useDispatch, useSelector } from "react-redux";
 // Register action
-import { register } from "../features/auth/authSlice";
+import { register, reset } from "../features/auth/authSlice";
 
 function Register() {
   // Create state with formData object
@@ -22,11 +23,26 @@ function Register() {
   // Destructuring formData object
   const { name, email, password, password2 } = formData;
 
+  // Initialize useNavigate
+  const navigate = useNavigate();
+
   // Auth Slice state
   const dispatch = useDispatch(); // Global state dispatch hook
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   ); // Bring in auth state
+
+  useEffect(() => {
+    if (isError) {
+      // Message set in authSlice.js (Redux)
+      toast.error(message);
+    }
+    // Redirect when logged in
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, navigate]);
 
   // Create onChange function for each input
   const onChange = (e) =>
@@ -59,7 +75,7 @@ function Register() {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Register {user}
+          <FaUser /> Register
         </h1>
         <p>Please create an account</p>
       </section>
@@ -91,7 +107,7 @@ function Register() {
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="password"
               name="password"
               value={password}
               id="password"
@@ -103,7 +119,7 @@ function Register() {
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="password"
               name="password2"
               value={password2}
               id="password2"
