@@ -38,6 +38,7 @@ http://localhost:5000/
 
 // Pass to routes
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/tickets", require("./routes/ticketRoutes"));
 /* Send a POST request using Postman to test the request
 http://localhost:5000/
 */
