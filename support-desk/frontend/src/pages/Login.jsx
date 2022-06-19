@@ -1,14 +1,17 @@
 // import useState
-import { useState } from "react";
-// Import Toast
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+// Import Toast
+import { Toast } from "react-toastify";
 // Import FaUser
 import { FaSignInAlt } from "react-icons/fa";
 import React from "react";
 // Global state selector hook (Connects react component to redux store)
 import { useDispatch, useSelector } from "react-redux";
 // Register action
-import { login } from "../features/auth/authSlice";
+import { login, reset } from "../features/auth/authSlice";
+import Spinner from "../components/Spinner";
 
 function Login() {
   // Create state with formData object
@@ -22,9 +25,25 @@ function Login() {
 
   // Auth Slice state
   const dispatch = useDispatch(); // Global state dispatch hook
-  const { user, isLoading, isSuccess, message } = useSelector(
+  // Initialize useNavigate
+  const navigate = useNavigate();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   ); // Bring in auth state
+
+  // On form submit
+  useEffect(() => {
+    if (isError) {
+      // Message set in authSlice.js (Redux)
+      toast.error(message);
+    }
+    // Redirect when logged in
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [isError, isSuccess, user, message, navigate]);
 
   // Create onChange function for each input
   const onChange = (e) =>
@@ -48,6 +67,11 @@ function Login() {
     // Dispatch login (from authSlice) action
     dispatch(login(userData));
   };
+
+  // Check for loading
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>

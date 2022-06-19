@@ -10,6 +10,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 // Register action
 import { register, reset } from "../features/auth/authSlice";
+import Spinner from "../components/Spinner";
 
 function Register() {
   // Create state with formData object
@@ -70,6 +71,10 @@ function Register() {
       dispatch(register(userData));
     }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>

@@ -1,11 +1,21 @@
 // import axios
 import axios from "axios";
 // Define the base url
-const API_URL = "/api/users";
+const API_URL = "/api/users/";
 
 // Register user route -from application
 export const register = async (userData) => {
   const response = await axios.post(API_URL, userData);
+  // Check response
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+  return response.data;
+};
+
+// Login user route -from application
+export const login = async (userData) => {
+  const response = await axios.post(API_URL + "login", userData);
   // Check response
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
@@ -21,6 +31,7 @@ export const logout = () => {
 const authService = {
   register,
   logout,
+  login,
 };
 
 export default authService;
