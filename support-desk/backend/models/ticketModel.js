@@ -19,7 +19,7 @@ const ticketSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["New", "Open", "Closed"],
+      enum: ["new", "open", "closed"],
       default: "new",
     },
   },
