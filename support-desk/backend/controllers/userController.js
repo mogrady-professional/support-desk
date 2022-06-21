@@ -70,6 +70,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      isAdmin: user.isAdmin,
     });
   } else {
     // Return JSON response -> 401 Unauthorized
