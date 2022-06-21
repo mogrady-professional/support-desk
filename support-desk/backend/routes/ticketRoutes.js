@@ -11,6 +11,10 @@ const {
 // Bring in middleware
 const { protect } = require("../middleware/authMiddleware");
 
+// Reroute into note router
+const noteRouter = require("./noteRoutes");
+router.use("/:ticketId/notes", noteRouter);
+
 // Protected route to get users tickets
 router.route("/").get(protect, getTickets).post(protect, createTicket);
 // Get ticket by id; getdelete/put ticket
