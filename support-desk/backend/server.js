@@ -14,24 +14,24 @@ app.use(express.json()); // Parse request body as JSON
 app.use(express.urlencoded({ extended: true })); // Parse request body as URL encoded data (for form submissions)
 
 // Create a route with express
-app.get("/", (req, res) => {
-  //   res.send("Hello World!"); // Send a response
+// app.get("/", (req, res) => {
+//   res.send("Hello World!"); // Send a response
 
-  // JSON Response
-  //   res.json({
-  //     message: "Welcome to the Support Desk API",
-  //   });
+// JSON Response
+//   res.json({
+//     message: "Welcome to the Support Desk API",
+//   });
 
-  // JSON Response with 201 Create Status Code
-  //   res.status(201).json({
-  //     message: "Welcome to the Support Desk API",
-  //   });
+// JSON Response with 201 Create Status Code
+//   res.status(201).json({
+//     message: "Welcome to the Support Desk API",
+//   });
 
-  // JSON Response with 20 OK Status Code
-  res.status(200).json({
-    message: "Welcome to the Support Desk API",
-  });
-});
+// JSON Response with 20 OK Status Code
+//   res.status(200).json({
+//     message: "Welcome to the Support Desk API",
+//   });
+// });
 
 /* Send a GET request using Postman to test the server
 http://localhost:5000/
