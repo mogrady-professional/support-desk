@@ -1,3 +1,4 @@
+const path = require("path"); // Path module from node.js
 const express = require("express"); // Express web server framework
 const colors = require("colors"); // For pretty console output
 const dotenv = require("dotenv").config(); // Load environment variables from .env file
@@ -42,6 +43,23 @@ app.use("/api/tickets", require("./routes/ticketRoutes"));
 /* Send a POST request using Postman to test the request
 http://localhost:5000/
 */
+
+// Serve Frontend -> Check if in production
+if (process.env.NODE_ENV === "production") {
+  // Set build folder as statuc
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  // Load index.html from the build folder
+  app.get("*", (req, res) =>
+    res.sendFile(__dirname, "../", "frontend", "build", "index.html")
+  ); //send html
+} else {
+  app.get("/", (req, res) => {
+    res.status(200).json({
+      message: "Welcome to the Support Desk API",
+    });
+  });
+}
+
 // Pass in Error Handler Middleware
 app.use(errorHandler);
 
