@@ -22,7 +22,7 @@ function Ticket() {
         dispatch(reset());
       }
     };
-  }, [isSuccess, dispatch]);
+  }, [dispatch, isSuccess]);
 
   useEffect(() => {
     dispatch(getTickets()); // Get tickets
@@ -39,6 +39,7 @@ function Ticket() {
       <div className="tickets">
         <div className="ticket-headings">
           <div>Date</div>
+          <div>Time</div>
           <div>Product</div>
           <div>Status</div>
           <div></div>

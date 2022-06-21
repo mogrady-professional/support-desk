@@ -25,9 +25,22 @@ const getTickets = async (token) => {
   return response.data;
 };
 
+// Get user ticket
+const getTicket = async (ticketId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(API_URL + ticketId, config); // Post new ticket to API
+
+  return response.data;
+};
+
 const ticketService = {
   createTicket,
   getTickets,
+  getTicket,
 };
 
 export default ticketService;

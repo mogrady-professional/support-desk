@@ -3,8 +3,8 @@ const express = require("express");
 const router = express.Router();
 const {
   getTickets,
-  createTicket,
   getTicket,
+  createTicket,
   deleteTicket,
   updateTicket,
 } = require("../controllers/ticketController");
